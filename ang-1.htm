@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<style>
+ input.ng-empty{
+ background-color:lightblue;
+ }
+ input.ng-valid{
+ background-color: lightgreen;
+ }
+</style>
+<body>
+
+<div ng-app="myApp" ng-controller="datactrl">
+  <p>Name : <input type="text" ng-model="name" required></p>
+  <h1 ng-click="changename()">{{wish}} {{name}}</h1>
+  <pre> Date: {{ today | date }}</pre>
+  <button ng-click="somefun()"> show</button>
+  <p><span ng-bind={{2+2}} ></span></p>
+  <button ng-click="myFormat(x)">Id</button>
+  <select ng-model="SortColumn">
+  <option value="-Id">Id Desc</option>
+  <option value="nam">Naam Asc</option>
+  </select>  
+ <table>
+  <thead>
+  <tr>
+   <th>Id</th>
+   <th>Name</th>
+   <th>Country</th>
+   </tr>
+   </thead>
+   <tbody>
+   <tr ng-repeat="x in names | orderBy:SortColumn">
+      <td>{{x.Id}}</td>
+	  <td>{{x.nam}}</td>
+	  <td>{{x.country}}</td>
+	  </tr>
+	  </tr>
+	  </tbody>
+	  </table>
+	  </pre>
+</div>
+
+<script>
+var app=angular.module('myApp' , []);
+app.filter('myFormat',function(){
+return function(names){
+var i,j;
+for(i=0;i<names.length;i++){
+ if(names[i].Id<names[i+1].Id){
+ j=names[i].id;
+}
+}
+return j;
+}
+});
+app.controller('datactrl' ,function($scope){
+$scope.somefun=function(){
+$scope.today = new Date();
+}
+$scope.wish="Hello";
+$scope.changename=function(){
+$scope.wish="Namaste";
+}
+$scope.names=[
+{ "Id":"121" ,"nam":"aaa" , "country":"India"},
+{"Id":"143", "nam":"bbb" , "country":"India"},
+{"Id":"211","nam":"ddd","country":"India"},
+{"Id":"42","nam":"ccc","country":"India"}
+];
+$scope.orderByMe=function(x){
+$scope.myOrderBy=x;
+}
+
+});
+
+
+</script>
+</body>
+</html>
